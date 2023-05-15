@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "configStore/store": ["./src/redux/configStore/store.jsx"],
+      "components/*": ["./src/components/*"],
+      "reducers/*": ["./src/redux/reducers/*"],
+      "models/*": ["./src/models/*"]
+    }
+  }
+}
