@@ -91,7 +91,7 @@ export class Table extends Component {
           <div className="row">
             <div className="col-6">
               <h3 className="text-center my-0 text-primary">
-                Quản Lý Sinh Viên
+                Danh Sách Sinh Viên
               </h3>
             </div>
             <div className="col-6">
