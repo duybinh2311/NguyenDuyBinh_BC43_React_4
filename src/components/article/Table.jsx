@@ -84,7 +84,6 @@ export class Table extends Component {
     return false
   }
   render() {
-    console.log('render table')
     return (
       <div className="card my-3">
         <div className="card-header">

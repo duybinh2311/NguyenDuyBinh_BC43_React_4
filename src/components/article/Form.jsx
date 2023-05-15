@@ -214,7 +214,6 @@ export class Form extends Component {
     return false
   }
   render() {
-    console.log('render form')
     return (
       <form onSubmit={this.addStudent} ref={this.formRef}>
         <div className="card">
