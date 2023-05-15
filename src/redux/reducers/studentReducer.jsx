@@ -5,20 +5,7 @@ const initialState = {
   studentEdit: {},
   isUpdateStudent: true,
   errorMessage: {},
-  listStudent: [
-    {
-      id: '001',
-      name: 'Nguyễn Duy Bình',
-      phone: '0382846602',
-      email: 'duybinh@gmail.com',
-    },
-    {
-      id: '002',
-      name: 'Nguyễn Anh Huy',
-      phone: '0382846602',
-      email: 'duybinh@gmail.com',
-    },
-  ],
+  listStudent: [],
   listStudentSearch: [],
   keywordStudentSearch: '',
 }
@@ -38,7 +25,12 @@ const studentReducer = createSlice({
       state.errorMessage = action.payload
     },
     addStudentReducer: (state, action) => {
+      if (Array.isArray(action.payload)) {
+        state.listStudent = action.payload
+        return
+      }
       state.listStudent.push(action.payload)
+      localStorage.setItem('listStudent', JSON.stringify(state.listStudent))
     },
     editStudentReducer: (state, action) => {
       state.studentEdit = action.payload
@@ -48,6 +40,7 @@ const studentReducer = createSlice({
         (student) => student.id === action.payload.id
       )
       Object.assign(studentUpdate, action.payload)
+      localStorage.setItem('listStudent', JSON.stringify(state.listStudent))
     },
     updateSuccessReducer: (state, action) => {
       state.isUpdateStudent = action.payload
@@ -58,6 +51,11 @@ const studentReducer = createSlice({
       )
       if (index !== -1) {
         state.listStudent.splice(index, 1)
+        if (state.listStudent.length) {
+          localStorage.setItem('listStudent', JSON.stringify(state.listStudent))
+        } else {
+          localStorage.removeItem('listStudent')
+        }
       }
     },
     searchStudentReducer: (state, action) => {

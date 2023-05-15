@@ -42,17 +42,17 @@ export class Form extends Component {
     },
   ]
   /* Toast Message */
-  toastAddSuccess = () => {
+  toastAddSuccess = (message) => {
     toast.dismiss()
-    toast.success('Thêm sinh viên thành công')
+    toast.success(message)
   }
-  toastError = () => {
+  toastError = (message) => {
     toast.dismiss()
-    toast.error('Thông tin không hợp lệ')
+    toast.error(message)
   }
-  toastUpdateSuccess = () => {
+  toastUpdateSuccess = (message) => {
     toast.dismiss()
-    toast.success('Sửa thông tin sinh viên thành công', {
+    toast.success(message, {
       iconTheme: {
         primary: '#00a6ed',
         secondary: '#fff',
@@ -95,10 +95,10 @@ export class Form extends Component {
     if (!Object.keys(Validation.errorMessageList).length) {
       this.props.addStudentReducer({ ...this.props.studentValue })
       this.resetForm()
-      this.toastUpdateSuccess()
+      this.toastAddSuccess('Thêm sinh viên thành công')
       return
     }
-    this.toastError()
+    this.toastError('Thông tin nhập vào không hợp lệ')
   }
   /* Edit Student */
   editStudent = () => {
@@ -118,6 +118,7 @@ export class Form extends Component {
     /* Disable, Enable Button */
     this.formRef.current.elements.btnCreate.disabled = true
     this.formRef.current.elements.btnUpdate.disabled = false
+    this.toastUpdateSuccess('Lấy thông tin sinh viên thành công')
   }
   /* Update Student */
   updateStudent = () => {
@@ -129,10 +130,10 @@ export class Form extends Component {
       }
       this.props.updateStudentReducer(studentUpdate)
       this.resetForm()
-      this.toastUpdateSuccess()
+      this.toastUpdateSuccess('Sửa đổi thông tin sinh viên thành công')
       return
     }
-    this.toastError()
+    this.toastError('Thông tin sửa đổi không hợp lệ')
   }
   /* Handle If Error Message Change */
   handleErrorChange = () => {
@@ -163,6 +164,12 @@ export class Form extends Component {
     this.props.validStudentReducer({})
     this.props.updateSuccessReducer(false)
   }
+  getLocalListStudent = () => {
+    if (localStorage.getItem('listStudent')) {
+      const listStudent = JSON.parse(localStorage.getItem('listStudent'))
+      this.props.addStudentReducer(listStudent)
+    }
+  }
   /* Optimized, If Error Or Student Edit Not Change => Don't Re-Render */
   shouldComponentUpdate(nextProps) {
     const errorPrev = JSON.stringify(this.props.errorMessage)
@@ -175,7 +182,6 @@ export class Form extends Component {
     return false
   }
   render() {
-    console.log('render Form')
     return (
       <form onSubmit={this.addStudent} ref={this.formRef}>
         <div className="card">
@@ -243,6 +249,7 @@ export class Form extends Component {
   /* Get Rule Input Validation After Mouting */
   componentDidMount() {
     this.getRuleValidInput()
+    this.getLocalListStudent()
   }
   /* Handle Input When Error Or Student Edit Change */
   componentDidUpdate(prevProps) {

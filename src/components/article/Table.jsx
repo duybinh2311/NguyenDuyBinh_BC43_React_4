@@ -1,5 +1,6 @@
 import Validation from 'models/Validation'
 import React, { Component } from 'react'
+import { toast } from 'react-hot-toast'
 import { connect } from 'react-redux'
 import {
   deleteStudentReducer,
@@ -57,10 +58,10 @@ export class Table extends Component {
   /* Delete Student */
   deleteStudent = (id) => {
     this.props.deleteStudentReducer(id)
+    toast.success('Xóa sinh viên thành công')
   }
   /* Search Student */
   searchStudent = (keyword) => {
-    console.log('search student')
     const ascentString = Validation.validFunctions.stringToSlug
     const keywordAscent = ascentString(keyword)
     const listSearch = this.props.listStudent.filter((student) => {
@@ -80,7 +81,6 @@ export class Table extends Component {
     return false
   }
   render() {
-    console.log('render table')
     return (
       <div className="card my-3">
         <div className="card-header">
