@@ -3,9 +3,12 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   studentValue: {},
   studentEdit: {},
-  isUpdateStudent: true,
+  isUpdateStudent: false,
   errorMessage: {},
-  listStudent: [],
+  listStudent: [
+    { id: 10, name: 'Bình', phone: '0382726372', email: 'duybinh@gmail.com' },
+    { id: 20, name: 'Huy', phone: '0382726372', email: 'duybinh@gmail.com' },
+  ],
   listStudentSearch: [],
   keywordStudentSearch: '',
 }

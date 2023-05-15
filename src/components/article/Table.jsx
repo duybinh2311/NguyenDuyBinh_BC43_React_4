@@ -25,6 +25,7 @@ export class Table extends Component {
           <td className="text-center">
             <button
               className="btn btn-danger btn-sm me-2"
+              disabled={this.props.isUpdateStudent}
               onClick={() => {
                 this.deleteStudent(student.id)
               }}
@@ -33,7 +34,7 @@ export class Table extends Component {
             </button>
             <button
               className="btn btn-primary btn-sm"
-              disabled={false}
+              disabled={this.props.isUpdateStudent}
               onClick={() => {
                 this.editStudent(student)
               }}
@@ -77,13 +78,21 @@ export class Table extends Component {
   shouldComponentUpdate(nextProps) {
     if (
       nextProps.listStudent !== this.props.listStudent ||
-      nextProps.listStudentSearch !== this.props.listStudentSearch
+      nextProps.listStudentSearch !== this.props.listStudentSearch ||
+      nextProps.isUpdateStudent !== this.props.isUpdateStudent
     ) {
       return true
     }
     return false
   }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if () {
+  //     return true
+  //   }
+  //   return false
+  // }
   render() {
+    console.log('render table')
     return (
       <div className="card my-3">
         <div className="card-header">
@@ -141,6 +150,7 @@ const mapStateToProps = (state) => ({
   listStudentSearch: state.studentReducer.listStudentSearch,
   studentEdit: state.studentReducer.studentEdit,
   keywordStudentSearch: state.studentReducer.keywordStudentSearch,
+  isUpdateStudent: state.studentReducer.isUpdateStudent,
 })
 
 const mapDispatchToProps = {
