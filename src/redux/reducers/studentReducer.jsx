@@ -5,10 +5,7 @@ const initialState = {
   studentEdit: {},
   isUpdateStudent: false,
   errorMessage: {},
-  listStudent: [
-    { id: 10, name: 'Bình', phone: '0382726372', email: 'duybinh@gmail.com' },
-    { id: 20, name: 'Huy', phone: '0382726372', email: 'duybinh@gmail.com' },
-  ],
+  listStudent: [],
   listStudentSearch: [],
   keywordStudentSearch: '',
 }
