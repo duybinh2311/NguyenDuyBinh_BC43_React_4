@@ -1,6 +1,7 @@
 export default class Validation {
   static formRules = {}
   static errorMessageList = {}
+  /* Get Rule Valid Of Input */
   static getValidRule(inputValidList) {
     inputValidList.forEach((input) => {
       let validRules = input.getAttribute('data-valid-rule').split('|')
@@ -13,6 +14,7 @@ export default class Validation {
       })
     })
   }
+  /* Handle Error */
   static handleError(input, listStudent) {
     let errorMessage
     this.formRules[input.id].find((test) => {
@@ -30,6 +32,7 @@ export default class Validation {
       this.errorMessageList = { ...newErrorMessageList }
     }
   }
+  /* Clear Error */
   static clearError() {
     this.errorMessageList = {}
   }

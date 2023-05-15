@@ -15,6 +15,12 @@ import {
 export class Form extends Component {
   /* Data Input And Form Ref */
   formRef = createRef()
+  errorRef = {
+    id: createRef(),
+    phone: createRef(),
+    name: createRef(),
+    email: createRef(),
+  }
   inputRenderList = [
     {
       id: 'id',
@@ -59,6 +65,26 @@ export class Form extends Component {
       },
     })
   }
+  /* Handle Error Message Element */
+  handleError = (event) => {
+    const { id } = event.target
+    Validation.handleError(event.target, this.props.listStudent)
+    if (!Validation.errorMessageList[id]) {
+      event.target.classList.add('is-valid')
+      event.target.classList.remove('is-invalid')
+      this.errorRef[id].current.innerHTML = 'Thông tin hợp lệ'
+      this.errorRef[id].current.classList.add('valid-feedback')
+      this.errorRef[id].current.classList.remove('invalid-feedback')
+      return
+    } else {
+      event.target.classList.remove('is-valid')
+      event.target.classList.add('is-invalid')
+      this.errorRef[id].current.innerHTML = Validation.errorMessageList[id]
+      this.errorRef[id].current.classList.remove('valid-feedback')
+      this.errorRef[id].current.classList.add('invalid-feedback')
+      return
+    }
+  }
   /* Get Input Value */
   handleInputChange = (event) => {
     const { id, value } = event.target
@@ -100,17 +126,18 @@ export class Form extends Component {
     }
     this.toastError('Thông tin nhập vào không hợp lệ')
   }
-  /* Edit Student */
+  /* Edit Student */ a
   editStudent = () => {
     /* Field Input Value Student Edit*/
     this.inputRenderList.forEach((input) => {
       const inputElement = this.formRef.current.elements[input.id]
+      const errorElement = this.errorRef[input.id].current
+      errorElement.innerHTML = ''
       inputElement.value = this.props.studentEdit[input.id]
       inputElement.focus()
       inputElement.blur()
-      if (inputElement.classList.contains('is-invalid')) {
-        inputElement.classList.remove('is-invalid')
-      }
+      inputElement.classList.remove('is-invalid')
+      inputElement.classList.remove('is-valid')
       if (inputElement.id === 'id') {
         inputElement.disabled = true
       }
@@ -147,13 +174,18 @@ export class Form extends Component {
   }
   /* Reset Form */
   resetForm = () => {
-    /* Clear Input */
+    Validation.clearError()
+    /* Clear Input & Error */
     this.inputRenderList.forEach((input) => {
       const inputElement = this.formRef.current.elements[input.id]
+      const errorElement = this.errorRef[input.id].current
       inputElement.disabled = false
+      inputElement.classList.remove('is-valid')
+      inputElement.classList.remove('is-invalid')
       inputElement.value = ''
       inputElement.focus()
       inputElement.blur()
+      errorElement.innerHTML = ''
     })
     /* Disable, Enable Button */
     this.formRef.current.elements.btnCreate.disabled = false
@@ -182,6 +214,7 @@ export class Form extends Component {
     return false
   }
   render() {
+    console.log('render form')
     return (
       <form onSubmit={this.addStudent} ref={this.formRef}>
         <div className="card">
@@ -196,11 +229,16 @@ export class Form extends Component {
                     <input
                       type="text"
                       className={`form-control ${
-                        this.props.errorMessage[input.id] ? `is-invalid` : ``
+                        Validation.errorMessageList[input.id]
+                          ? `is-invalid`
+                          : ``
                       }`}
                       id={input.id}
                       data-valid-rule={input.validRule}
-                      onInput={this.handleInputChange}
+                      onInput={(event) => {
+                        this.handleError(event)
+                        this.handleInputChange(event)
+                      }}
                     />
                     <label htmlFor={input.id} className="form-label">
                       {input.htmlString}
@@ -210,7 +248,10 @@ export class Form extends Component {
                       <div className="form-notch-middle"></div>
                       <div className="form-notch-trailing"></div>
                     </div>
-                    <div className="invalid-feedback">
+                    <div
+                      className="invalid-feedback"
+                      ref={this.errorRef[input.id]}
+                    >
                       {this.props.errorMessage[input.id]}
                     </div>
                   </div>

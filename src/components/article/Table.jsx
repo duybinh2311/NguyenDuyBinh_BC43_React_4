@@ -1,5 +1,5 @@
 import Validation from 'models/Validation'
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import { toast } from 'react-hot-toast'
 import { connect } from 'react-redux'
 import {
@@ -9,6 +9,7 @@ import {
   updateSuccessReducer,
   searchStudentReducer,
   keywordSearchReducer,
+  studentValueReducer,
 } from 'reducers/studentReducer'
 
 export class Table extends Component {
@@ -32,6 +33,7 @@ export class Table extends Component {
             </button>
             <button
               className="btn btn-primary btn-sm"
+              disabled={false}
               onClick={() => {
                 this.editStudent(student)
               }}
@@ -45,6 +47,7 @@ export class Table extends Component {
   }
   /* Edit Student */
   editStudent = (student) => {
+    this.props.studentValueReducer({})
     /* Clear Error Before Edit */
     if (Object.keys(Validation.errorMessageList).length) {
       Validation.clearError()
@@ -81,6 +84,7 @@ export class Table extends Component {
     return false
   }
   render() {
+    console.log('render table')
     return (
       <div className="card my-3">
         <div className="card-header">
@@ -147,6 +151,7 @@ const mapDispatchToProps = {
   updateSuccessReducer,
   searchStudentReducer,
   keywordSearchReducer,
+  studentValueReducer,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table)
