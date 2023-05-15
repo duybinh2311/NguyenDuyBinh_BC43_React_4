@@ -8,12 +8,13 @@ import { store } from 'configStore/store'
 import Header from 'components/layouts/Header'
 import Body from 'components/layouts/Body'
 import Footer from 'components/layouts/Footer'
-import Form from 'components/article/Form'
+import { Toaster } from 'react-hot-toast'
 
 export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <Toaster />
         <Header />
         <Body />
         <Footer />

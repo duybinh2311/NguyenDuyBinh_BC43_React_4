@@ -1,5 +1,6 @@
 import Validation from 'models/Validation'
 import React, { Component, createRef } from 'react'
+import { toast } from 'react-hot-toast'
 import { connect } from 'react-redux'
 import {
   studentValueReducer,
@@ -12,6 +13,7 @@ import {
 
 /* Data Input */
 export class Form extends Component {
+  /* Data Input And Form Ref */
   formRef = createRef()
   inputRenderList = [
     {
@@ -39,6 +41,24 @@ export class Form extends Component {
       validRule: 'required|email',
     },
   ]
+  /* Toast Message */
+  toastAddSuccess = () => {
+    toast.dismiss()
+    toast.success('Thêm sinh viên thành công')
+  }
+  toastError = () => {
+    toast.dismiss()
+    toast.error('Thông tin không hợp lệ')
+  }
+  toastUpdateSuccess = () => {
+    toast.dismiss()
+    toast.success('Sửa thông tin sinh viên thành công', {
+      iconTheme: {
+        primary: '#00a6ed',
+        secondary: '#fff',
+      },
+    })
+  }
   /* Get Input Value */
   handleInputChange = (event) => {
     const { id, value } = event.target
@@ -75,7 +95,10 @@ export class Form extends Component {
     if (!Object.keys(Validation.errorMessageList).length) {
       this.props.addStudentReducer({ ...this.props.studentValue })
       this.resetForm()
+      this.toastUpdateSuccess()
+      return
     }
+    this.toastError()
   }
   /* Edit Student */
   editStudent = () => {
@@ -106,7 +129,10 @@ export class Form extends Component {
       }
       this.props.updateStudentReducer(studentUpdate)
       this.resetForm()
+      this.toastUpdateSuccess()
+      return
     }
+    this.toastError()
   }
   /* Handle If Error Message Change */
   handleErrorChange = () => {
