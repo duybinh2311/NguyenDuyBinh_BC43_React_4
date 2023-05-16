@@ -50,10 +50,7 @@ export class Table extends Component {
   editStudent = (student) => {
     this.props.studentValueReducer({})
     /* Clear Error Before Edit */
-    if (Object.keys(Validation.errorMessageList).length) {
-      Validation.clearError()
-      this.props.validStudentReducer(Validation.errorMessageList)
-    }
+    Validation.clearError()
     if (student.id !== this.props.studentEdit.id) {
       this.props.updateSuccessReducer(true)
       this.props.editStudentReducer(student)
@@ -85,14 +82,7 @@ export class Table extends Component {
     }
     return false
   }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if () {
-  //     return true
-  //   }
-  //   return false
-  // }
   render() {
-    console.log('render table')
     return (
       <div className="card my-3">
         <div className="card-header">

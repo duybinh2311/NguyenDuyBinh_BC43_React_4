@@ -166,9 +166,14 @@ export class Form extends Component {
   handleErrorChange = () => {
     this.inputRenderList.forEach((input) => {
       const inputElement = this.formRef.current.elements[input.id]
+      const errorElement = this.errorRef[input.id].current
       if (inputElement.value) {
         inputElement.focus()
         inputElement.blur()
+      }
+      if (!inputElement.classList.contains('is-invalid') && !errorElement.classList.contains('invalid-feedback')) {
+        inputElement.classList.add('is-valid')
+        errorElement.innerHTML = 'Thông tin hợp lệ'
       }
     })
   }
@@ -186,6 +191,8 @@ export class Form extends Component {
       inputElement.focus()
       inputElement.blur()
       errorElement.innerHTML = ''
+      errorElement.classList.add('invalid-feedback')
+      errorElement.classList.remove('valid-feedback')
     })
     /* Disable, Enable Button */
     this.formRef.current.elements.btnCreate.disabled = false
@@ -196,6 +203,7 @@ export class Form extends Component {
     this.props.validStudentReducer({})
     this.props.updateSuccessReducer(false)
   }
+  /* Get Local Storage */
   getLocalListStudent = () => {
     if (localStorage.getItem('listStudent')) {
       const listStudent = JSON.parse(localStorage.getItem('listStudent'))
