@@ -48,6 +48,7 @@ export class Table extends Component {
   }
   /* Edit Student */
   editStudent = (student) => {
+    /* Clear State Student */
     this.props.studentValueReducer({})
     /* Clear Error Before Edit */
     Validation.clearError()
