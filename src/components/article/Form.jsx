@@ -171,7 +171,10 @@ export class Form extends Component {
         inputElement.focus()
         inputElement.blur()
       }
-      if (!inputElement.classList.contains('is-invalid') && !errorElement.classList.contains('invalid-feedback')) {
+      if (
+        !inputElement.classList.contains('is-invalid') &&
+        !errorElement.classList.contains('invalid-feedback')
+      ) {
         inputElement.classList.add('is-valid')
         errorElement.innerHTML = 'Thông tin hợp lệ'
       }
